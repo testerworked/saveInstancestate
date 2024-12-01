@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">SaveInstanceState</string>
     <string name="app_value">Message</string>
-    <string name="add_button">Ввод</string>
+    <string name="add_button">Счетчик</string>
 </resources>

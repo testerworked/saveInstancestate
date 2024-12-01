@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,12 +23,17 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
+        var countViewModel: CountViewModel = ViewModelProvider(this)[CountViewModel::class.java]
+
         messageTV = findViewById(R.id.outMessage)
         inputET = findViewById(R.id.inputET)
         buttonBTN = findViewById(R.id.inputB)
+        var number = 0
+        messageTV.text = number.toString()
 
         buttonBTN.setOnClickListener{
-            messageTV.text = inputET.text
+            countViewModel.addOne()
+            messageTV.text = countViewModel.number.toString()
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
