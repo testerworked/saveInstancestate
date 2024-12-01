@@ -9,10 +9,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var countViewModel: CountViewModel
     private lateinit var messageTV: TextView
     private lateinit var inputET : EditText
     private lateinit var buttonBTN: Button
@@ -23,17 +25,18 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        var countViewModel: CountViewModel = ViewModelProvider(this)[CountViewModel::class.java]
+        countViewModel = ViewModelProvider(this)[CountViewModel::class.java]
 
         messageTV = findViewById(R.id.outMessage)
         inputET = findViewById(R.id.inputET)
         buttonBTN = findViewById(R.id.inputB)
-        var number = 0
-        messageTV.text = number.toString()
+
+        countViewModel.currentNumber.observe(this, Observer {
+            messageTV.text = it.toString()
+        })
 
         buttonBTN.setOnClickListener{
-            countViewModel.addOne()
-            messageTV.text = countViewModel.number.toString()
+            countViewModel.currentNumber.value = ++countViewModel.number
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
